@@ -1,14 +1,25 @@
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard"; // on garde celui-ci
+import PrivateRoute from "./component/PrivateRoute";
+import { Toaster } from "react-hot-toast";
 
-
-function App() {
-
+export default function App() {
   return (
     <>
-      <div className="bg-blue-900 py-10">
-        <h1 className="text-white text-3xl font-bold text-center">Welcome to GDocs</h1>
-     </div>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+      <Toaster position="top-right" reverseOrder={false} />
     </>
-  )
+  );
 }
-
-export default App
