@@ -1,50 +1,66 @@
-import React from "react";
-import { useAuth } from "../context/AuthContext";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import Sidebar from "../component/Sidebar";
+import Navbar from "../component/Navbar";
 
-export default function DashboardAdmin() {
-  const { user, logout } = useAuth();
+export default function AdminDashboard() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const stats = {
+    documents: 42,
+    totalSize: "120MB",
+    recentUploads: ["Doc1.pdf", "Doc2.docx", "Image1.png"],
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Header */}
-      <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Tableau de Bord - Admin</h1>
-        <div className="flex items-center gap-4">
-          <span className="font-medium">👤 {user?.username}</span>
-          <button
-            onClick={logout}
-            className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
-          >
-            Déconnexion
-          </button>
-        </div>
-      </header>
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
+      <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
-      {/* Contenu */}
-      <main className="flex-1 p-6">
-        <h2 className="text-2xl font-semibold mb-4">Bienvenue Admin 👋</h2>
-        <p className="text-gray-700">
-          Ici, vous pouvez gérer les documents, consulter les statistiques et
-          superviser les utilisateurs standards.
-        </p>
+      {/* Main content */}
+      <div className="flex-1 flex flex-col">
+        {/* Navbar */}
+        <Navbar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          <div className="bg-white shadow p-4 rounded-lg">
-            <h3 className="font-bold text-lg">📂 Documents</h3>
-            <p className="text-gray-600">Gérez et organisez vos fichiers.</p>
+        {/* Page content */}
+        <motion.main
+          className="p-6 overflow-y-auto flex-1"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <h1 className="text-3xl font-bold mb-4">Tableau de bord</h1>
+          <p className="text-gray-600 mb-6">
+            Bienvenue sur votre espace d’administration 👋
+          </p>
+
+          {/* Statistiques */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            <div className="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition">
+              <h2 className="font-semibold text-gray-700 mb-2">Documents</h2>
+              <p className="text-3xl font-bold">{stats.documents}</p>
+            </div>
+
+            <div className="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition">
+              <h2 className="font-semibold text-gray-700 mb-2">
+                Taille totale
+              </h2>
+              <p className="text-3xl font-bold">{stats.totalSize}</p>
+            </div>
+
+            <div className="bg-white p-5 rounded-2xl shadow hover:shadow-lg transition">
+              <h2 className="font-semibold text-gray-700 mb-2">
+                Uploads récents
+              </h2>
+              <ul className="list-disc ml-6 text-gray-600">
+                {stats.recentUploads.map((doc, idx) => (
+                  <li key={idx}>{doc}</li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="bg-white shadow p-4 rounded-lg">
-            <h3 className="font-bold text-lg">👥 Utilisateurs</h3>
-            <p className="text-gray-600">
-              Consultez et administrez vos membres.
-            </p>
-          </div>
-          <div className="bg-white shadow p-4 rounded-lg">
-            <h3 className="font-bold text-lg">📊 Statistiques</h3>
-            <p className="text-gray-600">Aperçu rapide des activités.</p>
-          </div>
-        </div>
-      </main>
+        </motion.main>
+      </div>
     </div>
   );
 }

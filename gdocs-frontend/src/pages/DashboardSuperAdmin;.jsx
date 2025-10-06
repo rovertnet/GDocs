@@ -1,50 +1,60 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
-export default function DashboardSuperAdmin() {
+export default function SuperAdminDashboard() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  // données fictives pour super admin
+  const stats = {
+    totalUsers: 10,
+    totalDocuments: 150,
+    recentAdmins: ["admin1", "admin2", "admin3"],
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <header className="bg-purple-700 text-white p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold">Tableau de Bord - Super Admin</h1>
-        <div className="flex items-center gap-4">
-          <span className="font-medium">👑 {user?.username}</span>
-          <button
-            onClick={logout}
-            className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
-          >
-            Déconnexion
-          </button>
-        </div>
-      </header>
+    <motion.div
+      className="p-6 min-h-screen bg-gray-100"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Super Admin Dashboard</h1>
+        <button
+          onClick={handleLogout}
+          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+        >
+          Déconnexion
+        </button>
+      </div>
 
-      {/* Contenu */}
-      <main className="flex-1 p-6">
-        <h2 className="text-2xl font-semibold mb-4">
-          Bienvenue Super Admin 🚀
-        </h2>
-        <p className="text-gray-700">
-          Vous avez accès à toutes les fonctionnalités et à la gestion des
-          administrateurs.
-        </p>
+      <p className="mb-4">Bienvenue, {user?.name || "Super Admin"} !</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          <div className="bg-white shadow p-4 rounded-lg">
-            <h3 className="font-bold text-lg">⚙️ Gestion des Admins</h3>
-            <p className="text-gray-600">Ajoutez ou supprimez des admins.</p>
-          </div>
-          <div className="bg-white shadow p-4 rounded-lg">
-            <h3 className="font-bold text-lg">🔒 Sécurité</h3>
-            <p className="text-gray-600">Contrôlez les accès et rôles.</p>
-          </div>
-          <div className="bg-white shadow p-4 rounded-lg">
-            <h3 className="font-bold text-lg">📊 Super Stats</h3>
-            <p className="text-gray-600">Vue complète sur le système.</p>
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="bg-white p-4 rounded shadow">
+          <h2 className="font-bold">Utilisateurs</h2>
+          <p className="text-2xl">{stats.totalUsers}</p>
         </div>
-      </main>
-    </div>
+        <div className="bg-white p-4 rounded shadow">
+          <h2 className="font-bold">Documents</h2>
+          <p className="text-2xl">{stats.totalDocuments}</p>
+        </div>
+        <div className="bg-white p-4 rounded shadow">
+          <h2 className="font-bold">Admins récents</h2>
+          <ul className="list-disc ml-5">
+            {stats.recentAdmins.map((admin, idx) => (
+              <li key={idx}>{admin}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </motion.div>
   );
 }

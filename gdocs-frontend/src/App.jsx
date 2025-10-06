@@ -1,38 +1,38 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import PrivateRoute from "./component/PrivateRoute";
 import Login from "./pages/Login";
-import DashboardAdmin from "./pages/DashboardAdmin";
-import DashboardSuperAdmin from "./pages/DashboardSuperAdmin;";
 import Unauthorized from "./pages/Unauthorized";
+import AdminLayout from "./layouts/AdminLayout";
+import { Toaster } from "react-hot-toast";
+import AdminDashboard from "./pages/DashboardAdmin";
+import Users from "./pages/Users";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
+    <>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
-      {/* Dashboard Admin */}
-      <Route
-        path="/admin"
-        element={
-          <PrivateRoute allowedRoles={["admin"]}>
-            <DashboardAdmin />
-          </PrivateRoute>
-        }
-      />
+        {/* Routes Admin protégées */}
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute allowedRoles={["admin", "super-admin"]}>
+              <AdminLayout />
+            </PrivateRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+      </Routes>
 
-      {/* Dashboard Super Admin */}
-      <Route
-        path="/super-admin"
-        element={
-          <PrivateRoute allowedRoles={["super-admin"]}>
-            <DashboardSuperAdmin />
-          </PrivateRoute>
-        }
-      />
-
-      {/* Page Unauthorized */}
-      <Route path="/unauthorized" element={<Unauthorized />} />
-    </Routes>
+      <Toaster position="top-right" />
+    </>
   );
 }
 

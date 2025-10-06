@@ -2,19 +2,14 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-export default function PrivateRoute({ children, allowedRoles }) {
-  const { token, user } = useAuth();
+export default function PrivateRoute({ children }) {
+  const { token } = useAuth();
 
-  // Pas connecté => redirection login
+  // Si pas connecté → redirige vers login
   if (!token) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
-  // Si des rôles sont définis et que l'utilisateur n'est pas autorisé
-  if (allowedRoles && !allowedRoles.includes(user?.role)) {
-    return <Navigate to="/unauthorized" />; // page d'erreur/403 à créer
-  }
-
-  // Sinon, on autorise l'accès
+  // Sinon → autorise l’accès
   return children;
 }

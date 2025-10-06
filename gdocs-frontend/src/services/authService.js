@@ -1,16 +1,16 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/auth"; // ton backend NestJS
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000"; // adapte à ton backend
 
 // ✅ Inscription
 export const register = async (data) => {
-  const res = await axios.post(`${API_URL}/register`, data);
+  const res = await axios.post(`${API_URL}/auth/register`, data);
   return res.data; // { message: "ok", user: {...} }
 };
 
 // ✅ Connexion
 export const login = async (data) => {
-  const res = await axios.post(`${API_URL}/login`, data);
+  const res = await axios.post(`${API_URL}/auth/login`, data);
   return res.data; // { token: "...", user: {...} }
 };
 
