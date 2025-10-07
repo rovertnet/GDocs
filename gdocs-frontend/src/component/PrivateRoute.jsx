@@ -3,13 +3,15 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function PrivateRoute({ children }) {
-  const { token } = useAuth();
+  const { token, loading } = useAuth();
 
-  // Si pas connecté → redirige vers login
-  if (!token) {
-    return <Navigate to="/login" replace />;
+  if (loading) {
+    return <div className="text-center p-6">Chargement...</div>; // ⏳
   }
 
-  // Sinon → autorise l’accès
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
+
   return children;
 }
