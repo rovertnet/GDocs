@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Définir l'URL de base de ton API (depuis .env ou valeur par défaut)
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/users";
+const API_URL = import.meta.env.VITE_API_URL + "/users"; // ⚠ /users ajouté
 
 // 🧩 Récupérer tous les utilisateurs
 export const getUsers = async () => {
