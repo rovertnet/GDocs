@@ -11,7 +11,7 @@ export default function Sidebar({ open, setOpen }) {
     {
       name: "Documents",
       icon: <FileText size={20} />,
-      path: "/admin/documents",
+      path: "/admin/document",
     },
     { name: "Utilisateurs", icon: <Users size={20} />, path: "/admin/users" },
     {

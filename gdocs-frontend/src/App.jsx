@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import AdminDashboard from "./pages/DashboardAdmin";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
+import DocumentsPage from "./pages/DocumentsPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route index element={<AdminDashboard />} />
           <Route path="users" element={<Users />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="document" element={<DocumentsPage />} />
         </Route>
       </Routes>
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getUsers, addUser, deleteUser } from "../services/userService";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
+
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -62,6 +64,11 @@ export default function Users() {
     }
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedUser(null);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="flex justify-between items-center mb-8">
@@ -70,7 +77,7 @@ export default function Users() {
         </h1>
         <button
           onClick={() => setIsCreateModalOpen(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer"
         >
           + Ajouter un utilisateur
         </button>
@@ -87,7 +94,12 @@ export default function Users() {
               className="bg-white p-4 rounded-xl shadow hover:shadow-lg cursor-pointer relative"
               whileHover={{ scale: 1.03 }}
             >
-              <div onClick={() => setSelectedUser(user)}>
+              <div
+                onClick={() => {
+                  setSelectedUser(user);
+                  setShowModal(true);
+                }}
+              >
                 <h3 className="font-bold text-lg text-gray-800">{user.name}</h3>
                 <p className="text-gray-600">{user.email}</p>
                 <p className="text-gray-500 text-sm">{user.role}</p>
@@ -179,7 +191,7 @@ export default function Users() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer disabled:opacity-50"
                   >
                     {loading ? "Création..." : "Créer"}
                   </button>
@@ -216,7 +228,7 @@ export default function Users() {
 
               <div className="flex flex-col items-center text-center">
                 <img
-                  src={selectedUser.avatar || defaultAvatar}
+                  src={selectedUser.avatar}
                   alt={selectedUser.name}
                   className="w-24 h-24 rounded-full object-cover mb-4"
                 />
