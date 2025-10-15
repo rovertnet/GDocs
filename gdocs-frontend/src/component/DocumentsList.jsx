@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getDocuments, deleteDocument } from "../services/documentService";
 import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
+import { FaDownload } from "react-icons/fa";
+import { IoIosEye } from "react-icons/io";
+import { RiDeleteBinLine } from "react-icons/ri";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export default function DocumentList({ refreshTrigger }) {
   const { token } = useAuth();
@@ -52,18 +58,26 @@ export default function DocumentList({ refreshTrigger }) {
               </div>
               <div className="flex gap-3">
                 <a
-                  href={`http://localhost:4000/uploads/${doc.storageKey}`}
+                  href={`${API_URL}/uploads/${encodeURIComponent(
+                    doc.storageKey
+                  )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-600 hover:underline"
                 >
-                  Télécharger
+                  <FaDownload />
                 </a>
+                <button
+                  onClick={() => Navigate(`admin/documents/${doc.id}`)}
+                  className=" text-green-600 px-3 rounded-md hover:underline cursor-pointer"
+                >
+                  <IoIosEye />
+                </button>
                 <button
                   onClick={() => handleDelete(doc.id)}
                   className="text-red-500 hover:underline"
                 >
-                  Supprimer
+                  <RiDeleteBinLine />
                 </button>
               </div>
             </motion.div>

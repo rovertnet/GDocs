@@ -58,9 +58,9 @@ export default function DocumentUpload({ onUploaded }) {
       <button
         onClick={handleUpload}
         disabled={loading}
-        className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition cursor-pointer"
       >
-        {loading ? "Envoi en cours..." : "Uploader"}
+        {loading ? "Envoi en cours..." : "Ajouter le document"}
       </button>
     </motion.div>
   );

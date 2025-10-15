@@ -8,6 +8,7 @@ import AdminDashboard from "./pages/DashboardAdmin";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import DocumentsPage from "./pages/DocumentsPage";
+import DocumentViewer from "./pages/DocumentViewer";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="users" element={<Users />} />
           <Route path="settings" element={<Settings />} />
           <Route path="document" element={<DocumentsPage />} />
+          <Route path="/admin/documents/:id" element={<DocumentViewer />} />
         </Route>
       </Routes>
 
